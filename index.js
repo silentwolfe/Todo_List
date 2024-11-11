@@ -14,13 +14,22 @@ submit_btn.addEventListener("click", () => {
         completed: false
     };
 
-    console.log(taskId)
     list_array.push(task);
 
+    localStorage.setItem("task", JSON.stringify(list_array));
+
     renderTasks();
-    console.log(task.id)
     txt_dis.value = '';
 });
+
+window.addEventListener("load", () => {
+    const storedTask = localStorage.getItem("task");
+    if (storedTask) {
+        list_array = JSON.parse(storedTask);
+
+        renderTasks();
+    }
+})
 
 function renderTasks() {
     td_list.innerHTML = '';
@@ -50,7 +59,7 @@ td_list.addEventListener("click", (event) => {
 
     if (event.target.classList.contains("delete-btn")) {
         list_array = list_array.filter((t => t.id != taskId));
+        localStorage.setItem("task", JSON.stringify(list_array));
         renderTasks();
     }
 });
-console.log(list_array);
